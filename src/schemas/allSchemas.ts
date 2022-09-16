@@ -1,6 +1,6 @@
 import { ObjectSchema } from 'joi';
-import loginSchema from './loginSchema.js'
-import registerSchema from './registerSchema.js'
+import loginSchema from './loginSchema'
+import registerSchema from './registerSchema'
 
 interface AllSchemas {
     [key: string]: ObjectSchema
