@@ -14,4 +14,65 @@ model Users {
   id       Int    @id @default(autoincrement())
   email    String @unique
   password String
+
+  @@map("users")
+}
+
+model Categories {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  tests Tests[]
+
+  @@map("categories")
+}
+
+model Teachers {
+  id                Int                 @id @default(autoincrement())
+  name              String              @unique
+  teacherDiciplines TeacherDiciplines[]
+
+  @@map("teachers")
+}
+
+model Diciplines {
+  id                Int                 @id @default(autoincrement())
+  name              String              @unique
+  Terms             Terms?              @relation(fields: [termsId], references: [id])
+  termsId           Int?
+  teacherDiciplines TeacherDiciplines[]
+
+  @@map("diciplines")
+}
+
+model Terms {
+  id         Int          @id @default(autoincrement())
+  number     Int
+  diciplines Diciplines[]
+
+  @@map("terms")
+}
+
+model TeacherDiciplines {
+  id           Int         @id @default(autoincrement())
+  Teachers     Teachers?   @relation(fields: [teachersId], references: [id])
+  teachersId   Int?
+  Diciplines   Diciplines? @relation(fields: [diciplinesId], references: [id])
+  diciplinesId Int?
+  tests        Tests[]
+
+  @@map("teacherdiciplines")
+}
+
+model Tests {
+  id                  Int                @id @default(autoincrement())
+  name                String
+  pdfUrl              String
+  categoryId          Int
+  teacherDiciplineId  Int
+  Categories          Categories?        @relation(fields: [categoriesId], references: [id])
+  categoriesId        Int?
+  TeacherDiciplines   TeacherDiciplines? @relation(fields: [teacherDiciplinesId], references: [id])
+  teacherDiciplinesId Int?
+
+  @@map("tests")
 }

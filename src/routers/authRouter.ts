@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { loginUser, registerUser } from "../controllers/authController.js";
-import Validate from "../middlewares/joiValidate.js";
+import { loginUser, registerUser } from "../controllers/authController";
+import Validate from "../middlewares/joiValidate";
 
 const authRouter = Router();
 

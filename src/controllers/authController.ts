@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import * as userService from '../services/authService.js'
-import { IUsersType } from "../types/userType.js";
+import * as userService from '../services/authService'
+import { IUsersType } from "../types/userType";
 
 export async function loginUser(req: Request, res: Response) {
     const { password, email }: IUsersType = req.body;

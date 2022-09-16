@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import * as userFunctions from '../repositories/authRepository.js';
-import { IUsersType } from '../types/userType.js';
+import * as userFunctions from '../repositories/authRepository';
+import { IUsersType } from '../types/userType';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 
