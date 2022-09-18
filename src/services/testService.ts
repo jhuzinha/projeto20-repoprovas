@@ -22,7 +22,11 @@ export async function createTest(test: ITestsType) {
 }
 
 export async function findTestByCategories() {
+    const tests = await testsFunctions.getByCategories()
+    return tests
 }
 
 export async function findTestByTeachers() {
+    const tests = await testsFunctions.getByTeachers()
+    return tests
 }

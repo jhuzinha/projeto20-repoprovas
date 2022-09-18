@@ -14,4 +14,93 @@ export async function verifyTeacherAndDicipline(teachersId: number, diciplinesId
 
 export async function verifyCategory(id: number) {
     return await prisma.categories.findUnique({ where: { id } })
-} 
+}
+
+export async function getByCategories() {
+    return await prisma.terms.findMany(
+        {
+            distinct: ['id'],
+            select:
+            {
+                number: true,
+                diciplines:
+                {
+                    select:
+                    {
+                        name: true,
+                        Terms:
+                        {
+                            select: {
+                                number: true,
+                                diciplines: {
+                                    select: {
+                                        teacherDiciplines: {
+                                            select: {
+                                                tests: {
+                                                    select: {
+                                                        name: true,
+                                                        pdfUrl: true,
+                                                        TeacherDiciplines: {
+                                                            select: {
+                                                                Teachers: {
+                                                                    select: {
+                                                                        name: true
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+            }
+        }
+
+
+    )
+}
+
+export async function getByTeachers() {
+    return await prisma.teachers.findMany({
+        distinct: ['name'],
+        select: {
+            name: true,
+            teacherDiciplines: {
+                select: {
+                    Diciplines: {
+                        select: {
+                            name: true,
+                            Terms: {
+                                select: {
+                                    number: true,
+                                    diciplines: {
+                                        select: {
+                                            teacherDiciplines: {
+                                                select: {
+                                                    tests:
+                                                    {
+                                                        select: {
+                                                            name: true,
+                                                            pdfUrl: true,
+                                                            id: true
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    })
+}

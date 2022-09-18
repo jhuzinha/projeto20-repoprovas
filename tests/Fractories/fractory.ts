@@ -18,7 +18,7 @@ export async function testValid() {
         "pdfUrl": faker.internet.avatar(),
         "categoryId": "1",
         "teacherId": "1",
-        "diciplineId": "1"
+        "diciplineId": "2"
     }
 }
 

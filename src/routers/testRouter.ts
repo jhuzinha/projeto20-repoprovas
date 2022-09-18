@@ -7,7 +7,7 @@ const testRouter = Router();
 
 testRouter.use(validateAuthUser)
 testRouter.post(`/test-create`, Validate('test'), testFunctions.addTest)
-testRouter.get(`/test-dicipline`, testFunctions.getByDiciplines)
+testRouter.get(`/test-diciplines`, testFunctions.getByDiciplines)
 testRouter.get(`/test-teachers`, testFunctions.getByTeachers)
 
 export default testRouter;

@@ -6,7 +6,10 @@ import { prisma } from '../src/database'
 
 beforeEach(() => {
     prisma.$executeRaw`
-    TRUNCATE TABLE test RESTART IDENTITY; `
+    TRUNCATE TABLE tests RESTART IDENTITY; `;
+    prisma.$executeRaw`
+    TRUNCATE TABLE users RESTART IDENTITY;
+    `;
 })
 describe("ROUTE /signup POST", () => {
     it("Valid Credentials - /signup - Status 201 ", async () => {
@@ -58,6 +61,7 @@ describe("ROUTE /test-create POST", () => {
         await supertest(app).post('/signup').send(newUser)
         const token = await supertest(app).post('/signin').send(user)
         const test = await fractoryFunctions.testValid()
+        console.log(test)
         const result = await supertest(app).post('/test-create').send(test).set('Authorization', token.body.token)
         expect(result.status).toEqual(201)
     })
@@ -91,6 +95,34 @@ describe("ROUTE /test-create POST", () => {
 })
 
 describe("ROUTE /test GET", () => {
+    it("Test By Diciplines - /test-diciplines - Status 200", async () => {
+        const user = await fractoryFunctions.user('login')
+        const newUser = { ...user, "confirmPassword": user.password }
+        await supertest(app).post('/signup').send(newUser)
+        const token = await supertest(app).post('/signin').send(user)
+        const result = await supertest(app).get('/test-diciplines').set('Authorization', token.body.token)
+        expect(result.status).toEqual(200)
+        expect(result.body).toBeInstanceOf(Object)
+    })
+    it("Unauthorized Test By Diciplines - /test-diciplines - Status 401", async () => {
+        const result = await supertest(app).get('/test-diciplines')
+        expect(result.status).toEqual(401)
+    })
+
+    it("Test By Teachers - /test-teachers - Status 200", async () => {
+        const user = await fractoryFunctions.user('login')
+        const newUser = { ...user, "confirmPassword": user.password }
+        await supertest(app).post('/signup').send(newUser)
+        const token = await supertest(app).post('/signin').send(user)
+        const result = await supertest(app).get('/test-teachers').set('Authorization', token.body.token)
+        expect(result.status).toEqual(200)
+        expect(result.body).toBeInstanceOf(Object)
+    })
+
+    it("Unauthorized Test By Teachers - /test-teachers - Status 401", async () => {
+        const result = await supertest(app).get('/test-teachers')
+        expect(result.status).toEqual(401)
+    })
 
 })
 

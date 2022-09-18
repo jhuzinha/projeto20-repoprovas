@@ -17,9 +17,11 @@ export async function addTest(req: Request, res: Response) {
 }
 
 export async function getByDiciplines(req: Request, res: Response) {
-    return res.status(200).send('')
+    const tests = await testsFunctions.findTestByCategories()
+    return res.status(200).send(tests)
 }
 
 export async function getByTeachers(req: Request, res: Response) {
-    return res.status(200).send('')
+    const tests = await testsFunctions.findTestByTeachers()
+    return res.status(200).send(tests)
 }
