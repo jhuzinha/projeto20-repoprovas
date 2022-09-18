@@ -25,9 +25,7 @@ describe("ROUTE /signup POST", () => {
     })
     it("Error Credentials - /signup - Status 422 ", async () => {
         const user = await fractoryFunctions.user('register')
-        delete user.password
-        await supertest(app).post('/signup').send(user)
-        const result = await supertest(app).post('/signup').send(user)
+        const result = await supertest(app).post('/signup').send({ email: user.email })
         expect(result.status).toEqual(422)
     })
 })
@@ -48,8 +46,8 @@ describe("ROUTE /signin POST", () => {
     })
     it("Wrong Credentials - /signin - Status 422 ", async () => {
         const user = await fractoryFunctions.user('login')
-        delete user.password
-        const result = await supertest(app).post('/signin').send(user)
+
+        const result = await supertest(app).post('/signin').send({ email: user.email })
         expect(result.status).toEqual(422)
     })
 })
@@ -61,7 +59,6 @@ describe("ROUTE /test-create POST", () => {
         await supertest(app).post('/signup').send(newUser)
         const token = await supertest(app).post('/signin').send(user)
         const test = await fractoryFunctions.testValid()
-        console.log(test)
         const result = await supertest(app).post('/test-create').send(test).set('Authorization', token.body.token)
         expect(result.status).toEqual(201)
     })

@@ -1,8 +1,13 @@
 import { faker } from '@faker-js/faker';
 
+type User = {
+    email: string,
+    password: string,
+    confirmPassword?: string
+}
 
 export async function user(type: string) {
-    let data = {
+    let data: User = {
         email: faker.internet.email(),
         password: faker.internet.password(10, true, /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,}$/, 'Jh1')
     }

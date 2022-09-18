@@ -4,7 +4,7 @@
     // "module":"CommonJS",  
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": false,
+    "strict": true,
     "skipLibCheck": true,
   }
 }
