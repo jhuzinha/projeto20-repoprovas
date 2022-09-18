@@ -1,35 +1,26 @@
-import { prisma } from "../src/database.js";
+import { prisma } from "../src/database";
 
-async function main() {
-    await prisma.$executeRaw`
-    INSERT INTO terms ("number") VALUES (1);
-    INSERT INTO terms ("number") VALUES (2);
-    INSERT INTO terms ("number") VALUES (3);
-    INSERT INTO terms ("number") VALUES (4);
-    INSERT INTO terms ("number") VALUES (5);
-    INSERT INTO terms ("number") VALUES (6);
+export async function main() {
+    await prisma.terms.createMany({ data: [{ "number": 1 }, { "number": 2 }, { "number": 3 }, { "number": 4 }, { "number": 5 }, { "number": 6 }] })
+    await prisma.categories.createMany({ data: [{ "name": 'Projeto' }, { "name": 'Prática' }, { "name": 'Recuperação' }] })
+    await prisma.teachers.createMany({ data: [{ "name": 'Diego Pinho' }, { "name": 'Bruna Hamori' }] })
+    await prisma.diciplines.createMany({
+        data: [{ "name": 'HTML e CSS', termsId: 1 },
+        { "name": 'JavaScript', termsId: 2 },
+        { "name": 'React', termsId: 3 },
+        { "name": 'Humildade', termsId: 4 },
+        { "name": 'Planejamento', termsId: 2 },
+        { "name": 'Autoconfiança', termsId: 3 }]
+    })
+    await prisma.teacherDiciplines.createMany({
+        data: [{ teachersId: 1, diciplinesId: 1 },
+        { teachersId: 1, diciplinesId: 2 },
+        { teachersId: 1, diciplinesId: 3 },
+        { teachersId: 2, diciplinesId: 4 },
+        { teachersId: 2, diciplinesId: 5 },
+        { teachersId: 2, diciplinesId: 6 }]
+    })
 
-    INSERT INTO categories ("name") VALUES ('Projeto');
-    INSERT INTO categories ("name") VALUES ('Prática');
-    INSERT INTO categories ("name") VALUES ('Recuperação');
-
-    INSERT INTO teachers ("name") VALUES ('Diego Pinho');
-    INSERT INTO teachers ("name") VALUES ('Bruna Hamori');
-
-    INSERT INTO disciplines ("name", "termId") VALUES ('HTML e CSS', 1);
-    INSERT INTO disciplines ("name", "termId") VALUES ('JavaScript', 2);
-    INSERT INTO disciplines ("name", "termId") VALUES ('React', 3);
-    INSERT INTO disciplines ("name", "termId") VALUES ('Humildade', 1);
-    INSERT INTO disciplines ("name", "termId") VALUES ('Planejamento', 2);
-    INSERT INTO disciplines ("name", "termId") VALUES ('Autoconfiança', 3);
-
-    INSERT INTO "teachersDisciplines" ("teacherId", "disciplineId") VALUES (1, 1);
-    INSERT INTO "teachersDisciplines" ("teacherId", "disciplineId") VALUES (1, 2);
-    INSERT INTO "teachersDisciplines" ("teacherId", "disciplineId") VALUES (1, 3); 
-    INSERT INTO "teachersDisciplines" ("teacherId", "disciplineId") VALUES (2, 4);
-    INSERT INTO "teachersDisciplines" ("teacherId", "disciplineId") VALUES (2, 5);
-    INSERT INTO "teachersDisciplines" ("teacherId", "disciplineId") VALUES (2, 6);
-    `
 }
 
 main().catch(e => {

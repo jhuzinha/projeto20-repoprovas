@@ -1,15 +1,43 @@
 import { faker } from '@faker-js/faker';
-import { prisma } from '../../src/database'
 
-export async function createUser() {
-    const { email, password } = await user()
-    const userCreated = await prisma.users.create({ data: { email, password } })
-    return userCreated
-}
 
-export async function user() {
-    return {
+export async function user(type: string) {
+    let data = {
         email: faker.internet.email(),
         password: faker.internet.password(10, true, /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,}$/, 'Jh1')
+    }
+    if (type === 'register') {
+        data['confirmPassword'] = data.password
+    }
+    return data
+}
+
+export async function testValid() {
+    return {
+        "name": faker.name.fullName(),
+        "pdfUrl": faker.internet.avatar(),
+        "categoryId": "1",
+        "teacherId": "1",
+        "diciplineId": "1"
+    }
+}
+
+export async function testInvalidCategory() {
+    return {
+        "name": faker.name.fullName(),
+        "pdfUrl": faker.internet.avatar(),
+        "categoryId": "10000",
+        "teacherId": "1",
+        "diciplineId": "1"
+    }
+}
+
+export async function testInvalidTeacher() {
+    return {
+        "name": faker.name.fullName(),
+        "pdfUrl": faker.internet.avatar(),
+        "categoryId": "1",
+        "teacherId": "100000",
+        "diciplineId": "1"
     }
 }

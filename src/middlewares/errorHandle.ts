@@ -18,6 +18,9 @@ function errorTypes(error: Error) {
     if (error.type === "Unauthorized") {
         return { status: 401, message: error.message }
     }
+    if (error.type === "Not Acceptable") {
+        return { status: 406, message: error.message }
+    }
     return { status: 500, message: "Internal server error" }
 }
 

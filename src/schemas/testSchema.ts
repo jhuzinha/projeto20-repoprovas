@@ -2,8 +2,11 @@ import joi from 'joi';
 
 
 const testSchema = joi.object({
-    nome: joi.string().email().required(),
-    pdfUrl: joi.string().uri().required()
+    name: joi.string().required(),
+    pdfUrl: joi.string().uri().required(),
+    categoryId: joi.number().required(),
+    teacherId: joi.number().required(),
+    diciplineId: joi.number().required()
 });
 
 export default testSchema;
